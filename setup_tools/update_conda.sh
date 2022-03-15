@@ -120,7 +120,7 @@ echo "finished loading"
 # Activate conda environment.
 eval "\$(conda shell.bash hook)"
 
-conda update -n base -c defaults conda
+conda update -y -n base -c defaults conda
 
 echo "Finished."
 srun hostname
