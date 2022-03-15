@@ -121,13 +121,13 @@ echo "finished loading"
 eval "\$(conda shell.bash hook)"
 
 
-conda create -n ${ENV_NAME}
+conda create -y -n ${ENV_NAME}
 echo "created conda environment"
 
 source activate ${ENV_NAME}
 echo "activated conda environment"
 
-conda install ${PACKAGES}
+conda install -y ${PACKAGES}
 echo "installed packages."
 
 echo "Finished."
