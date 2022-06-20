@@ -24,7 +24,7 @@ def launch_conda_jobs_csv(
     # To do this, set the `job_output_folder` to include the `job_name` and then 
     # have `JobLauncher` create subdirectories associated with `experiment_id`.
     t = time.time()
-    output_folder_name = f"{job_name}_{time.strftime('%Y_%m_%d_%H_%M_%Z', time.localtime(t))}"
+    output_folder_name = f"{time.strftime('%Y_%m_%d_%H_%M_%Z', time.localtime(t))}_{job_name}"
     job_output_directory = job_output_directory.joinpath(output_folder_name)
 
     # Iterate over jobs.
