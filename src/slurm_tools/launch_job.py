@@ -40,7 +40,7 @@ class JobLauncher(object):
         if verbose or self.verbose:
             self.sbecho(self.sbatch_commands, "CURRENT DIRECTORY ${PWD}")
             self.sbecho(self.sbatch_commands, f"JOB OUTPUT DIRECTORY {job_output_directory}")
-            self.sbecho(self.sbatch_commands, "JOB RUNNING ON ${srun hostname}")
+            self.sbecho(self.sbatch_commands, "JOB RUNNING ON $(srun hostname)")
 
 
     def set_sbatch_commands(
