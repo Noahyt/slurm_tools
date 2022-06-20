@@ -1,7 +1,9 @@
 """Launches a set of jobs parameterized by csv arrays."""
 
 import argparse
+import json
 from pathlib import Path
+import time
 
 from slurm_tools import launch_python_job
 from slurm_tools import csv_util
@@ -13,23 +15,31 @@ def launch_conda_jobs_csv(
     """Launches a set of slurm jobs parameterized by csv files for script args and slurm parameters."""
     # Load args.
     script_args = csv_util.parse_csv(script_args)
-    slurm_args = csv_util.parse_csv(slurm_args)
 
-    # Check that there are a compatible number of experiments in slurm and script arg files.
-    if len(script_args) != len(slurm_args):
-        raise ValueError(
-            "Must have same number of lines (each coresponding to one experiment) in `script_args` and `slurm_args`."
-        )
+    # If `test` run only two.
+    script_args = script_args[:2]
+
+    # TODO: replace this with a nicer scheme that incorporates the subfolders as a fn of `JobLauncher`
+    # We want to put all the output logs under a single folder.
+    # To do this, set the `job_output_folder` to include the `job_name` and then 
+    # have `JobLauncher` create subdirectories associated with `experiment_id`.
+    t = time.time()
+    output_folder_name = f"{job_name}_{time.strftime('%Y_%m_%d_%H_%M_%Z', time.localtime(t))}"
+    job_output_directory = job_output_directory.joinpath(output_folder_name)
 
     # Iterate over jobs.
-    for slurm_arg_job, script_arg_job in zip(script_args, slurm_args):
+    for script_arg_job in script_args:
+        # We want to set the `job_name` to be associated with the given experiment.
+        experiment_id = script_arg_job.pop("experiment_id")
+        job_name_ex = f"{job_name}_id_{experiment_id}"
+
         launch_python_job.launch_conda_job(
-            job_name=job_name,
+            job_name=job_name_ex,
             job_output_directory=job_output_directory,
             env_name=env_name,
             script=script,
             script_args=script_arg_job,
-            slurm_args=slurm_arg_job,
+            slurm_args=slurm_args,
             test=test,
         )
 
@@ -44,7 +54,7 @@ def parse_args():
     parser.add_argument("--env_name")
     parser.add_argument("--script", type=str)
     parser.add_argument("--script_args", type=str)
-    parser.add_argument("--slurm_args", type=str)
+    parser.add_argument("--slurm_args", type=json.loads)
     parser.add_argument("--test", action=argparse.BooleanOptionalAction, default=False)
     return parser.parse_args()
 
@@ -54,7 +64,6 @@ def main():
     args = parse_args()
     script = Path(args.script)
     script_args = Path(args.script_args)
-    slurm_args = Path(args.slurm_args)
     job_output_directory = Path(args.job_output_directory)
     launch_conda_jobs_csv(
         job_name=args.job_name,
@@ -62,7 +71,7 @@ def main():
         env_name=args.env_name,
         script=script,
         script_args=script_args,
-        slurm_args=slurm_args,
+        slurm_args=args.slurm_args,
         test=args.test,
     )
 

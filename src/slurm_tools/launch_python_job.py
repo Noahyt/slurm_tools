@@ -80,6 +80,7 @@ def launch_conda_job(
         job_name=job_name,
         job_output_directory=job_output_directory
     ) 
+    print(slurm_args)
     jl.set_sbatch_commands(**slurm_args)
     jl.set_job_commands(script, script_args)
     jl.run(test=test)
