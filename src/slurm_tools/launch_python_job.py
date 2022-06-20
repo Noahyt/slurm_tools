@@ -73,14 +73,15 @@ def launch_conda_job(
     script_args: dict,
     slurm_args: dict,
     test: bool=False,
+    verbose: bool=True,
 ):
     """Launches a set of slurm jobs parameterized by csv files for script args and slurm parameters."""
     jl = CondaJobLauncher(
         env_name = env_name,
         job_name=job_name,
         job_output_directory=job_output_directory
+        verbose=verbose
     ) 
-    print(slurm_args)
     jl.set_sbatch_commands(**slurm_args)
     jl.set_job_commands(script, script_args)
     jl.run(test=test)

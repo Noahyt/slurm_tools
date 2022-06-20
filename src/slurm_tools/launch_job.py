@@ -37,7 +37,7 @@ class JobLauncher(object):
         self.sbatch_commands.append(scommand.STDERRCommand(self.job_directory))
         self.sbatch_commands.append(scommand.STDOUTCommand(self.job_directory))
         self.verbose=verbose
-        if verbose:
+        if verbose or self.verbose:
             self.sbecho(self.sbatch_commands, "CURRENT DIRECTORY ${PWD}")
             self.sbecho(self.sbatch_commands, f"JOB OUTPUT DIRECTORY {output_directory}")
             self.sbecho(self.sbatch_commands, "JOB OUTPUT DIRECTORY ${srun hostname}")
@@ -68,14 +68,14 @@ class JobLauncher(object):
             self.sbatch_commands.append(scommand.CPUCountCommand(cpu_count))
         if mem_per_cpu is not None:
             self.sbatch_commands.append(scommand.MemoryPerCpuCommand(mem_per_cpu))
-        if verbose:
+        if verbose or self.verbose:
             self.sbecho(self.sbatch_commands, "JOB ID ${SLURM_JOB_ID}")
 
     def set_post_commands(
         verbose=False,
     ):
         """Commands to run after core job."""
-        if verbose:
+        if verbose or self.verbose:
             self.sbecho(self.post_commands, "FINISHED.")
 
 
