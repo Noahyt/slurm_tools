@@ -22,7 +22,7 @@ def _maybe_none(line):
 
 
 # TODO: Handle blank entries.
-def parse_csv(file, headerline=0, skiplines=[], readcolumns=None, **kwargs):
+def parse_csv(file, headerline=0, skiplines=None, readcolumns=None, **kwargs):
     """Parses csv and returns a list of `dict` for each line.
 
     The keys of the dict are given by the entries in columns of `headerline`.
@@ -36,6 +36,9 @@ def parse_csv(file, headerline=0, skiplines=[], readcolumns=None, **kwargs):
     returns:
         csv_args: `List` of `dict` containing parsed csv entries.
     """
+    if skiplines is None:
+        skiplines = []
+
     csv_lines = read_csv(file)
 
     # Select columns.
