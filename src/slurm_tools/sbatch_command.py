@@ -45,8 +45,11 @@ class BashCommand(Command):
 class Echo(BashCommand):
     """Prints text."""
 
-    description=""
     command_call="echo"
+
+    def build_str(self, **kwargs):
+        """Override `build_str` since we never want a description."""
+        return super().build_str(include_description=False)
 
     def __init__(self, text):
         self.command_arg=text
@@ -150,7 +153,7 @@ class STDOUTCommand(SbatchCommand):
 
     def __init__(self, output_directory):
         self.output_directory=output_directory
-        self.command_arg=f"{self.output_directory}/%a_output.txt"
+        self.command_arg=f"{self.output_directory}/output.txt"
 
 
 class STDERRCommand(SbatchCommand):
@@ -160,7 +163,7 @@ class STDERRCommand(SbatchCommand):
 
     def __init__(self, output_directory):
         self.output_directory=output_directory
-        self.command_arg=f"{self.output_directory}/%a_error.txt"
+        self.command_arg=f"{self.output_directory}/error.txt"
 
 
 class PartitionCommand(SbatchCommand):
