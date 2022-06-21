@@ -65,7 +65,8 @@ class JobLauncher(object):
         if partition is not None:
             self.sbatch_commands.append(scommand.PartitionCommand(partition))
         if cpu_count is not None:
-            self.sbatch_commands.append(scommand.CPUCountCommand(cpu_count))
+            # TODO: Maybe improve this to incorporate number of cpus/task.
+            self.sbatch_commands.append(scommand.NTaskCommand(cpu_count))
         if mem_per_cpu is not None:
             self.sbatch_commands.append(scommand.MemoryPerCpuCommand(mem_per_cpu))
         if verbose or self.verbose:

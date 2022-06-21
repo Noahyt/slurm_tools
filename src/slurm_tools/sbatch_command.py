@@ -186,14 +186,17 @@ class TimeCommand(SbatchCommand):
         self.command_arg=self.time
 
 
-class CPUCountCommand(SbatchCommand):
-    """Sets partition on which to run job."""
-    command_call="n"
-    description="Set number of cpus for job" 
+class NTaskCommand(SbatchCommand):
+    """Sets number of tasks requested.
+    The default is for 1 cpu per task, so for simple jobs this is equivalent to setting
+    the number of CPUs.
+    """
+    command_call="ntasks"
+    description="Set number of requeted tasks (default 1 cpu/task)." 
 
-    def __init__(self, cpu_count):
-        self.cpu_count = cpu_count
-        self.command_arg=self.cpu_count
+    def __init__(self, task_count):
+        self.task_count = task_count
+        self.command_arg=self.task_count
 
 
 class MemoryPerCpuCommand(SbatchCommand):
