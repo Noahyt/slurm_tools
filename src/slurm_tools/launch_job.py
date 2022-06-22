@@ -37,6 +37,8 @@ class JobLauncher(object):
         self.sbatch_commands.append(scommand.STDERRCommand(self.job_directory))
         self.sbatch_commands.append(scommand.STDOUTCommand(self.job_directory))
         self.verbose=verbose
+        # TODO: move comments to another spot, ensure no commands before sbatch.
+        # These lines cause the script to fail because they occur before the other `sbatch` commands.
         if verbose or self.verbose:
             self.sbecho(self.sbatch_commands, "CURRENT DIRECTORY ${PWD}")
             self.sbecho(self.sbatch_commands, f"JOB OUTPUT DIRECTORY {job_output_directory}")
