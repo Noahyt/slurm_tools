@@ -17,7 +17,8 @@ def launch_conda_jobs_csv(
     script_args = csv_util.parse_csv(script_args)
 
     # If `test` run only two.
-    script_args = script_args[:2]
+    if test:
+        script_args = script_args[:2]
 
     # TODO: replace this with a nicer scheme that incorporates the subfolders as a fn of `JobLauncher`
     # We want to put all the output logs under a single folder.
