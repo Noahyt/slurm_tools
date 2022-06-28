@@ -55,7 +55,10 @@ def parse_args():
     parser.add_argument("--env_name")
     parser.add_argument("--script", type=str)
     parser.add_argument("--script_args", type=str)
-    parser.add_argument("--slurm_args", type=json.loads)
+    # Create set of option for `slurm_args`.
+    slurm_args_group = parser.add_mutually_exclusive_group()
+    slurm_args_group.add_argument("--slurm_args", type=json.loads)
+    slurm_args_group.add_argument("--slurm_args_file", type=str)
     parser.add_argument("--test", action=argparse.BooleanOptionalAction, default=False)
     return parser.parse_args()
 
@@ -65,6 +68,18 @@ def main():
     args = parse_args()
     script = Path(args.script)
     script_args = Path(args.script_args)
+
+    # Parse slurm args.
+    if args.slurm_args_file is not None:
+        # The output of the csv parser is a list of dictionaries. we take the first entry as the
+        # args for all experiments in this job.
+        slurm_args = csv_util.parse_csv(args.slurm_args_file)[0]
+    else:
+        slurm_args = args.slurm_args
+
+    if args.test:
+        print(f"slurm args: {slurm_args}")
+
     job_output_directory = Path(args.job_output_directory)
     launch_conda_jobs_csv(
         job_name=args.job_name,
@@ -72,7 +87,7 @@ def main():
         env_name=args.env_name,
         script=script,
         script_args=script_args,
-        slurm_args=args.slurm_args,
+        slurm_args=slurm_args,
         test=args.test,
     )
 

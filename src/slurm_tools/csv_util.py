@@ -78,6 +78,9 @@ def dict_to_CLI_args(
         _check_CLI_key(k)
         if isinstance(v, str):
             argstring.append(f"--{k} {v}")
+        elif v is None:
+            # If a blank value, then don't add anything to CLI args.
+            pass
         else:
             # Format as float.
             argstring.append(f"--{k} {v:.1E}")
