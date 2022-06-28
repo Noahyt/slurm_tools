@@ -22,7 +22,6 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     entry_points={
         'console_scripts': [
-            'hello-world = slurm_tools.hello_world:hello_world',
             'launch-python-jobs-array = slurm_tools.launch_python_jobs_array:main',
         ]
     },
