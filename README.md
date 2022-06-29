@@ -23,3 +23,7 @@ Explicitly:
 ```
 
 The `--test` flag will write an `sbatch` file but not submit it to the queue.
+
+## Random notes on `slurm`.
+
+  - When the `sbatch` script is run, slurm invokes a new non-interactive bash instance to handle input. This instance is associated with the user, such that [`.bashrc`](https://linuxize.com/post/bashrc-vs-bash-profile/) is loaded and the script will have access to any aliases/etc. that are created by the user.
