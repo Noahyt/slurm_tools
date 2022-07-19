@@ -8,6 +8,9 @@ from pathlib import Path
 import os
 
 
+_TRUE_FLAG="TRUE"
+
+
 def read_csv(file, newline=''):
     with open(file, newline=newline) as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
@@ -77,7 +80,11 @@ def dict_to_CLI_args(
     for k, v in d.items():
         _check_CLI_key(k)
         if isinstance(v, str):
-            argstring.append(f"--{k} {v}")
+            # If the string is `$TRUE_FLAG` then use as a boolean argument.
+            if v==_TRUE_FLAG:
+                argstring.append(f"--{k}")
+            else:
+                argstring.append(f"--{k} {v}")
         elif v is None:
             # If a blank value, then don't add anything to CLI args.
             pass

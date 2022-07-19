@@ -70,7 +70,7 @@ def main():
     script_args = Path(args.script_args)
 
     if args.job_name is None:
-        job_name=f"{script.stem}_{script_args.stem}"
+        job_name=f"{script.suffix[1:]}_{script_args.stem}"
 
     # Parse slurm args.
     if args.slurm_args_file is not None:
