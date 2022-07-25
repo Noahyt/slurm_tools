@@ -9,8 +9,7 @@ RequestBasicInstance() {
 }
 
 
-RequestLaunchInstance() {
-	RequestBasicInstance
+PrepareToLaunchJobs() {
 	module load Anaconda3
 	source activate ${JOB_LAUNCH_ENV}
 }
