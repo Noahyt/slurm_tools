@@ -48,7 +48,7 @@ def launch_conda_jobs_csv(
 def parse_args():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--job_name", default="sbatch-job")
+    parser.add_argument("--job_name", default=None)
     parser.add_argument(
         "--job_output_directory", default=Path.home().joinpath("job_logs")
     )
@@ -69,6 +69,9 @@ def main():
     script = Path(args.script)
     script_args = Path(args.script_args)
 
+    if args.job_name is None:
+        job_name=f"{script.suffix[1:]}_{script_args.stem}"
+
     # Parse slurm args.
     if args.slurm_args_file is not None:
         # The output of the csv parser is a list of dictionaries. we take the first entry as the
@@ -82,7 +85,7 @@ def main():
 
     job_output_directory = Path(args.job_output_directory)
     launch_conda_jobs_csv(
-        job_name=args.job_name,
+        job_name=job_name,
         job_output_directory=job_output_directory,
         env_name=args.env_name,
         script=script,
