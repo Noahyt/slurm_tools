@@ -71,6 +71,8 @@ def main():
 
     if args.job_name is None:
         job_name=f"{script.suffix[1:]}_{script_args.stem}"
+    else:
+        job_name = args.job_name
 
     # Parse slurm args.
     if args.slurm_args_file is not None:
