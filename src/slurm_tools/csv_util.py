@@ -77,13 +77,14 @@ def dict_to_CLI_args(
     for k, v in d.items():
         _check_CLI_key(k)
         if isinstance(v, str):
-            argstring.append(f"--{k} {v}")
+            argstring.append(f"--{k}={v}")
         elif v is None:
             # If a blank value, then don't add anything to CLI args.
             pass
         else:
             # Format as float.
-            argstring.append(f"--{k} {v:.1E}")
+            argstring.append(f"--{k}={vstring}")
+            
 
     return " ".join(argstring)
 
