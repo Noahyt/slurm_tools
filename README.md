@@ -1,6 +1,20 @@
 # slurm_tools
 Basic tools for running slurm jobs.
 
+## Installation
+
+Download this directory
+
+```
+   git clone … 
+```
+
+Install using pip
+
+```
+   pip install -e $SLURM_TOOLS_DIRECTORY
+```
+
 
 ## Launch Python Job from Script.
 
